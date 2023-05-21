@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       <Container>
-        <Grid container spacing={5}>
+        <Grid container spacing={1}>
           <TourCard />
           <TourCard />
           <TourCard />
