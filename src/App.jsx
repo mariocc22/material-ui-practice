@@ -1,44 +1,40 @@
+// react router
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+// style
 import "./App.css";
 
-// components
-import TourCard from "./components/TourCard.jsx";
-import SearchAppBar from "./components/AppBar";
+// layout
+import Main from "./layout/Main";
 
-// material ui
-import Container from "@mui/material/Container";
-import { Grid, Typography } from "@mui/material";
-
-// data
-import cities from "./data/dataCards.json";
+// pages
+import Homepage from "./components/Homepage";
+import TourPage from "./components/TourPage";
 
 function App() {
+  // 1. create router
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Main />,
+      children: [
+        {
+          index: true,
+          element: <Homepage />,
+        },
+        {
+          path: ":tourId",
+          element: <TourPage />,
+        },
+      ],
+    },
+  ]);
+
   return (
     <>
-      <SearchAppBar />
-      <Container
-        sx={{
-          marginY: "3rem",
-        }}
-      >
-        {cities.map((city) => (
-          <>
-            <Typography
-              variant="h4"
-              component="h2"
-              marginTop={5}
-              marginBottom={3}
-              key={city.id}
-            >
-              Top {city.name} tours
-            </Typography>
-            <Grid container spacing={1}>
-              {city.tours.map((tour, index) => (
-                <TourCard tour={tour} key={index} />
-              ))}
-            </Grid>
-          </>
-        ))}
-      </Container>
+      <div className="App">
+        <RouterProvider router={router} />
+      </div>
     </>
   );
 }
