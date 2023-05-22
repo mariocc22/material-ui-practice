@@ -14,49 +14,37 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 
+// consts
+import { mainNavbarItems } from "./consts/navbarItems";
+
+// styles
+import { navbarStyles } from "./styles.js";
+
+// react router
+import { useNavigate } from "react-router-dom";
+
 const Navbar = () => {
-  const drawerWidth = 200;
+  const navigate = useNavigate();
 
   return (
-    <Drawer
-      sx={{
-        width: drawerWidth,
-        flexShrink: 0,
-        "& .MuiDrawer-paper": {
-          width: drawerWidth,
-          boxSizing: "border-box",
-        },
-      }}
-      variant="permanent"
-      anchor="left"
-    >
+    <Drawer sx={navbarStyles.drawer} variant="permanent" anchor="left">
       <Toolbar />
-      <Divider />
+      <Divider sx={{ backgroundColor: "rgba(255,255,255,0.7)" }} />
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
+        {mainNavbarItems.map((text, index) => (
+          <ListItem
+            key={text.id}
+            disablePadding
+            onClick={() => navigate(text.route)}
+          >
             <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemIcon sx={navbarStyles.icons}>{text.icon}</ListItemIcon>
+              <ListItemText sx={navbarStyles.text} primary={text.label} />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
-      <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      <Divider sx={{ backgroundColor: "rgba(255,255,255,0.7)" }} />
     </Drawer>
   );
 };
